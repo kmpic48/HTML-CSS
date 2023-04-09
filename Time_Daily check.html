@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <title>시간과 실천계획</title>
+	  <style>
+		
+			#container {  
+			  width:360px;
+			  margin:5px auto;
+			  padding:20px;
+			  text-align: ;
+			}
+			input[type="text"] {
+			  width:293px;
+			  float:left;
+			  height:60x;
+			  padding-left:1px;
+			  font-size:1em;
+			}
+			button {
+			  width:60px;
+			  height:26px;
+			  float:right;
+			  background:#222;
+			  color:#fff;
+			  border:none;
+			}
+			hr { clear:both; display:none; }
+			ol {text-size: 24px;			
+			    padding-top:50px;}
+			li { line-height: 2.5;
+                text-size: 24px;}
+			li:hover { cursor:pointer;}
+			p {font-size: 1em; }
+			
+	      #current_date{
+		    width: 100%;
+			height:50px;
+			text-align: center;
+			line-height:  20px;
+			font-size: 20px ;
+			color: Black;		
+			broder: 2px solid #000;
+			margin:30px auto;
+			padding:5px;
+           }
+		  #clock{
+			width: 100%;
+			height:50px;
+			text-align: center;
+			line-height:  10px;
+			font-size: 120px ;
+			color: Black;		
+			broder: 1px solid #000;
+			margin:1px auto;
+			padding:1px;
+		  }
+		  
+		  
+		   h1{
+			color: Black;
+		   }
+		  </style>
+		  
+	</head>
+	
+   <body>
+        <div id="current_date">0000-00-00</div><!--날짜표기-->
+		
+		<div id="clock"> 00:00:00</div> <!-- 시간표시 부분-->
+		
+		<div id="container">
+		<h1>생활 실천 계획은?</h1>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;꼭 실천 할 일은 기록</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;실천한 일 지우기(클릭)</p>	
+		<form action="">
+		  <input type="text" id="subject" autofocus>
+		  <button onclick="newRegister(); return false;">추가</button>
+		  
+		</form>
+		 
+		
+		<ol id="itemList"> </ol>  <!-- 할일 목록 기록부분-->
+		</div>
+		
+		<script>
+		
+		<!--날짜표시-->
+		date = new Date();
+		year = date.getFullYear();
+		month = date.getMonth() + 1;
+		day = date.getDate();
+		
+		const week = ["일","월","화","수","목","금","토"];
+		let dayOfWeek = week[date.getDay()];
+		document.getElementById("current_date").innerHTML = year + "년  " +  month+ "월  " + day + "일  " + dayOfWeek + "요일";
+		
+	     <!--할일목록표시-->		   
+		function newRegister() {
+		  var newItem = document.createElement("li");  // 요소 노드 추가 
+		  var subject = document.querySelector("#subject");  // 폼의 텍스트 필드
+		  var newText = document.createTextNode(subject.value);  // 텍스트 필드의 값을 텍스트 노드로 만들기
+		  newItem.appendChild(newText);  // 텍스트 노드를 요소 노드의 자식 노드로 추가
+
+		  var itemList = document.querySelector("#itemList");  // 웹 문서에서 부모 노드 가져오기 
+		  itemList.insertBefore(newItem, itemList.childNodes[0]);  // 자식 노드중 첫번째 노드 앞에 추가
+
+		  subject.value="";
+
+		  var items = document.querySelectorAll("li");  // 모든 항목 가져오기
+		  for(i=0; i<items.length; i++) {
+			items[i].addEventListener("click", function() {  // 항목 클릭했을 때 실행할 함수
+			  if(this.parentNode)    // 부모 노드가 있다면 
+				this.parentNode.removeChild(this);  // 부모 노드에서 삭제
+			});
+		  }
+		}
+	
+     <!--시간표시-->
+		   
+		  function addToZero(value){
+		      if(value < 10 )
+			     value = "0" + value;
+				 return value;
+				 }
+		  function displayTime(){
+		       var objDate = new Date();
+			   var hours = addToZero(objDate.getHours());
+			   var minutes = addToZero(objDate.getMinutes());
+			   var seconds = addToZero(objDate.getSeconds());
+			   
+			   var time = hours + ":" + minutes + ":" + seconds;
+			   document.getElementById('clock').innerHTML= time;
+			   }
+			   
+		    // 0.5초마다 시간 출력
+			
+			setInterval (function(){
+			    displayTime();
+				},500);
+				displayTime();
+		
+		</script>
+		
+     
+</body>
+</html>
